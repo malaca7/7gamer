@@ -18,19 +18,21 @@ import { AdminLoginModal } from './components/admin/AdminLoginModal';
 import { AdminDashboard } from './components/admin/AdminDashboard';
 import { CommunityFormModal } from './components/admin/CommunityFormModal';
 
+const DEFAULT_SETTINGS: SiteSettings = {
+  id: 'default',
+  site_name: '7 GAMER',
+  site_tagline: 'SUA PRÓXIMA PARTIDA COMEÇA AQUI',
+  site_description: 'O portal definitivo para encontrar comunidades ativas, servidores dedicados e clãs competitivos em jogos licenciados e gratuitos.',
+  discord_main_url: 'https://discord.gg/7gamer',
+  whatsapp_main_url: 'https://chat.whatsapp.com/7gamer-oficial',
+  contact_email: 'contato@7gamer.com.br',
+  footer_text: 'O 7 GAMER é uma plataforma independente dedicada a conectar jogadores e comunidades legítimas. Respeitamos os direitos dos desenvolvedores e não apoiamos pirataria, cheats ou modificações não autorizadas.',
+  updated_at: '2026-10-28T00:00:00.000Z',
+};
+
 export const App: React.FC = () => {
   const [communities, setCommunities] = useState<Community[]>([]);
-  const [settings, setSettings] = useState<SiteSettings>({
-    id: 'default',
-    site_name: '7 GAMER',
-    site_tagline: 'SUA PRÓXIMA PARTIDA COMEÇA AQUI',
-    site_description: 'O portal definitivo para encontrar comunidades ativas, servidores dedicados e clãs competitivos em jogos licenciados e gratuitos.',
-    discord_main_url: 'https://discord.gg/7gamer',
-    whatsapp_main_url: 'https://chat.whatsapp.com/7gamer-oficial',
-    contact_email: 'contato@7gamer.com.br',
-    footer_text: 'O 7 GAMER é uma plataforma independente dedicada a conectar jogadores e comunidades legítimas. Respeitamos os direitos dos desenvolvedores e não apoiamos pirataria, cheats ou modificações não autorizadas.',
-    updated_at: new Date().toISOString(),
-  });
+  const [settings, setSettings] = useState<SiteSettings>(DEFAULT_SETTINGS);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -71,11 +73,10 @@ export const App: React.FC = () => {
 
   // Data fetching
   const loadData = useCallback(async () => {
-    setLoading(true);
-    setError(null);
     try {
       // Check admin status
       const admin = await authService.getCurrentAdmin();
+      setError(null);
       setCurrentAdmin(admin);
 
       // Fetch communities (include drafts if admin)
@@ -96,7 +97,31 @@ export const App: React.FC = () => {
 
   // Initial load
   useEffect(() => {
-    loadData();
+    let active = true;
+
+    const fetchPortalData = async () => {
+      try {
+        const admin = await authService.getCurrentAdmin();
+        if (!active) return;
+        setCurrentAdmin(admin);
+
+        const commList = await communityService.getCommunities(!!admin);
+        if (!active) return;
+        setCommunities(commList);
+
+        const siteSettings = await communityService.getSiteSettings();
+        if (!active) return;
+        setSettings(siteSettings);
+      } catch (err: any) {
+        if (!active) return;
+        console.error('Error loading data:', err);
+        setError(err.message || 'Falha ao carregar dados do portal.');
+      } finally {
+        if (active) setLoading(false);
+      }
+    };
+
+    fetchPortalData();
 
     // Check hash for direct routing
     const handleHash = () => {
@@ -119,8 +144,11 @@ export const App: React.FC = () => {
 
     handleHash();
     window.addEventListener('hashchange', handleHash);
-    return () => window.removeEventListener('hashchange', handleHash);
-  }, [loadData]);
+    return () => {
+      active = false;
+      window.removeEventListener('hashchange', handleHash);
+    };
+  }, []);
 
   // Admin login handler
   const handleOpenAdmin = () => {

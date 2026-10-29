@@ -8,8 +8,9 @@ interface FooterProps {
   onOpenSqlModal: () => void;
 }
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 export const Footer: React.FC<FooterProps> = ({ settings, onOpenSqlModal }) => {
-  const currentYear = new Date().getFullYear();
 
   return (
     <footer className="w-full bg-[#050608] border-t border-gamer-dark-800/80 pt-16 pb-12 mt-20 relative overflow-hidden">
@@ -115,7 +116,7 @@ export const Footer: React.FC<FooterProps> = ({ settings, onOpenSqlModal }) => {
         {/* Bottom Credits & Legal */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>
-            © {currentYear} <strong>{settings.site_name}</strong>. Todos os direitos reservados. Marcas e jogos citados pertencem aos seus respectivos proprietários.
+            © {CURRENT_YEAR} <strong>{settings.site_name}</strong>. Todos os direitos reservados. Marcas e jogos citados pertencem aos seus respectivos proprietários.
           </p>
           <div className="flex items-center gap-1 text-slate-400">
             <span>Desenvolvido para comunidades gamers</span>
