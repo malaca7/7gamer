@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://malaca7.github.io/7gamer/",
+  "homepage": "https://7gamer.malaca.com.br/",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
