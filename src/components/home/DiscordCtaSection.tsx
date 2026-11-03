@@ -1,5 +1,6 @@
 import React from 'react';
 import { MessageSquare, Users, ShieldCheck, Trophy, ExternalLink } from 'lucide-react';
+import logoImg from '../../assets/logo.png';
 
 interface DiscordCtaSectionProps {
   discordUrl?: string;
@@ -48,9 +49,11 @@ export const DiscordCtaSection: React.FC<DiscordCtaSectionProps> = ({ discordUrl
 
           {/* Action Box */}
           <div className="lg:col-span-5 flex flex-col items-center justify-center p-6 sm:p-8 rounded-2xl bg-black/50 border border-gamer-dark-800 backdrop-blur-md text-center space-y-4">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#5865F2] to-gamer-red-500 flex items-center justify-center shadow-lg text-white">
-              <MessageSquare className="w-8 h-8" />
-            </div>
+            <img
+              src={logoImg}
+              alt="7 GAMER"
+              className="h-20 w-auto object-contain drop-shadow-[0_0_20px_rgba(255,30,66,0.45)]"
+            />
 
             <div>
               <div className="text-lg font-bold text-white font-orbitron">

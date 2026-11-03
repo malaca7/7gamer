@@ -10,6 +10,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import type { SiteSettings } from '../../types';
+import logoImg from '../../assets/logo.png';
 
 interface HeroSectionProps {
   settings: SiteSettings;
@@ -19,13 +20,22 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ settings, onExploreClick, communityCount }) => {
   return (
-    <section className="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
+    <section className="relative pt-10 pb-20 md:pt-16 md:pb-32 overflow-hidden">
       {/* Background radial ambient lights */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gamer-red-600/15 blur-[140px] pointer-events-none rounded-full" />
       <div className="cyber-grid absolute inset-0 opacity-40 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-3xl mx-auto text-center space-y-6">
+          {/* Featured Hero Logo */}
+          <div className="flex justify-center">
+            <img
+              src={logoImg}
+              alt="7 GAMER Logo Oficial"
+              className="h-28 sm:h-36 md:h-44 w-auto object-contain drop-shadow-[0_0_35px_rgba(255,30,66,0.45)] animate-in fade-in zoom-in-95 duration-500"
+            />
+          </div>
+
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gamer-dark-900/90 border border-gamer-red-500/30 text-xs font-semibold text-gamer-red-400 shadow-glow-red-sm animate-in fade-in slide-in-from-top-2">
             <span className="w-2 h-2 rounded-full bg-gamer-red-500 animate-pulse" />

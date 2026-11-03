@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { authService } from '../../services/authService';
 import type { AdminUser } from '../../services/authService';
+import logoImg from '../../assets/logo.png';
 import { 
   X, 
-  Lock, 
   Mail, 
   KeyRound, 
   ArrowRight, 
@@ -84,10 +84,12 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
       >
         {/* Header */}
         <div className="p-6 bg-gradient-to-br from-gamer-dark-850 to-gamer-dark-950 border-b border-gamer-dark-800 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-gamer-red-500/10 border border-gamer-red-500/20 text-gamer-red-500">
-              <Lock className="w-5 h-5" />
-            </div>
+          <div className="flex items-center gap-3.5">
+            <img
+              src={logoImg}
+              alt="7 GAMER"
+              className="h-11 w-auto object-contain drop-shadow-[0_0_12px_rgba(255,30,66,0.4)]"
+            />
             <div>
               <h3 className="text-lg font-bold text-white font-orbitron">
                 {isResetMode ? 'Recuperação de Senha' : 'Painel Administrativo'}
